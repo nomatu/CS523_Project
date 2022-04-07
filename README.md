@@ -17,9 +17,9 @@ Different values for noise-multiplier (the current default value is 7.1).
 The accuracy is calculated on the test set.
 | DP | Robust | Norm | NM | Accuracy |
 |----|:-------|:----:|:--:|---------:|
-| Y :|:   Y  :|: Y  :|:7.1|:   0.97 :|
+| Y  |    Y   |  Y   | 7.1|    0.97  |
 |----|:-------|:----:|:--:|---------:|
-| Y :|:   Y  :|: N  :|:7.1|:   0.94 :|
+| Y  |    Y   |  N   | 7.1|    0.94  |
 
 
 ## References
