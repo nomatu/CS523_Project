@@ -1,8 +1,8 @@
 # CS523_Project
-Deep learning project 2022
+Deep learning Team Project 2022 - The Tradeoff between privacy and robustness when training with Batch Normalization
 Our task is to train a model to be both robust and deferentially private (DP) by using batch normalization can improve the trade-off observed in literature. 
 ## SIDP
-This is pytorch Implementation of ' Robust Differentially Private Training of Deep Neural Networks' [[1]](#1)
+We combined the DP with Batch Norm training algorithm of [[1]](#1) together with robust PGD training. We have updated the [code](https://github.com/uds-lsv/SIDP) of [[1]](#1) to support robust training and changed the training procedure. For each batch, we created a new adversarial batch formed by doing gradient ascent on the current batch. The goal of gradient ascent is to maximize the loss the model on the perturbed batch. The code for [gradient] (https://gist.github.com/oscarknagg/45b187c236c6262b1c4bbe2d0920ded6##file-projected_gradient_descent-py) is obtained and modified in a combatible way with the gradient update of [[1]](#1).
 ## Testing
 We compared DP + robust training on the MNIST and CIFAR-10 datasets (with and without BatchNorm) for various amount of adversarial noise and privcy budgets. The comparison will be in terms of the accuracy acheived by the model on the test dataset.
 
@@ -18,7 +18,6 @@ The accuracy is calculated on the test set.
 | DP | Robust | Norm | NM | Accuracy |
 |----|:-------|:----:|:--:|---------:|
 | Y  |    Y   |  Y   | 7.1|    0.97  |
-|----|:-------|:----:|:--:|---------:|
 | Y  |    Y   |  N   | 7.1|    0.94  |
 
 
