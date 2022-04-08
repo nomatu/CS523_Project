@@ -5,6 +5,7 @@ Our task is to train a model to be both robust and deferentially private (DP) wi
 ## Usage
 
 To run experiments on MNIST use: python vision.py --dataset mnist 
+
 To run experiments on CIFAR-10 use: python vision.py --dataset cifar10
 
 Check vision.py for all other arguments that can be specified, such as number of epochs, privay argumetns, robustness arguments, etc. 
