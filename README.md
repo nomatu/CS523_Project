@@ -12,7 +12,7 @@ To run experiments on CIFAR-10 use:
 ```
 python vision.py --dataset cifar10
 ```
-Check vision.py for all other arguments that can be specified, such as number of epochs, privay argumetns, robustness arguments, etc. 
+Check ``vision.py`` for all other arguments that can be specified, such as number of epochs, privay argumetns, robustness arguments, etc. 
 
 We have combined the DP with Batch Norm training algorithm of [[1]](#1) together with robust PGD training. We have updated the [code](https://github.com/uds-lsv/SIDP) of [[1]](#1) to support robust training using Projected Gradient Descent (PGD). For each batch, we create a new adversarial batch formed by doing gradient ascent on the current batch. The goal of gradient ascent is to maximize the loss the model on the perturbed batch. The [followig code](https://gist.github.com/oscarknagg/45b187c236c6262b1c4bbe2d0920ded6##file-projected_gradient_descent-py) for PGD is obtained and modified to work for our traiing procedure. 
 
