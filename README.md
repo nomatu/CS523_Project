@@ -24,6 +24,5 @@ The accuracy is calculated on the test set.
 ## References
 <a id="1">[1]</a> 
 Ali Davody, David Ifeoluwa Adelani, Thomas Klein-
-bauer, and Dietrich Klakow. On the effect of normal-
-ization layers on differentially private training of deep
+bauer, and Dietrich Klakow. On the effect of normalization layers on differentially private training of deep
 neural networks. CoRR, abs/2006.10919, 2020.
