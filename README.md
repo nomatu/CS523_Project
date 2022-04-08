@@ -1,20 +1,31 @@
 # CS523_Project
-Deep learning Team Project 2022 - The Tradeoff between privacy and robustness when training with Batch Normalization
-Our task is to train a model to be both robust and deferentially private (DP) by using batch normalization can improve the trade-off observed in literature. 
+Deep learning Team Project 2022 - The tradeoff between privacy and robustness when training with Batch Normalization
+Our task is to train a model to be both robust and deferentially private (DP) with and without using Batch Normalization. We want to test whether batch normalization can improve the trade-offs between robusts and privacy observed in the literature. We train model for two image classification tasks: MNIST and CIFAR-10. 
+
 ## Usage
-We combined the DP with Batch Norm training algorithm of [[1]](#1) together with robust PGD training. We have updated the [code](https://github.com/uds-lsv/SIDP) of [[1]](#1) to support robust training and changed the training procedure. For each batch, we created a new adversarial batch formed by doing gradient ascent on the current batch. The goal of gradient ascent is to maximize the loss the model on the perturbed batch. The code for [gradient](https://gist.github.com/oscarknagg/45b187c236c6262b1c4bbe2d0920ded6##file-projected_gradient_descent-py) is obtained and modified in a combatible way with the gradient update of [[1]](#1).
+
+To run experiments on MNIST use: python vision.py --dataset mnist 
+To run experiments on CIFAR-10 use: python vision.py --dataset cifar10
+
+Check vision.py for all other arguments that can be specified, such as number of epochs, privay argumetns, robustness arguments, etc. 
+
+We have combined the DP with Batch Norm training algorithm of [[1]](#1) together with robust PGD training. We have updated the [code](https://github.com/uds-lsv/SIDP) of [[1]](#1) to support robust training using Projected Gradient Descent (PGD). For each batch, we create a new adversarial batch formed by doing gradient ascent on the current batch. The goal of gradient ascent is to maximize the loss the model on the perturbed batch. The [followig code](https://gist.github.com/oscarknagg/45b187c236c6262b1c4bbe2d0920ded6##file-projected_gradient_descent-py) for PGD is obtained and modified to work for our traiing procedure. 
+
 ## Testing
-We compared DP + robust training on the MNIST and CIFAR-10 datasets (with and without BatchNorm) for various amount of adversarial noise and privcy budgets. The comparison will be in terms of the accuracy acheived by the model on the test dataset.
+We compare DP + robust training on the MNIST and CIFAR-10 datasets (with and without BatchNorm) for various amounts of adversarial noise and privcy budgets. The comparison will be in terms of the accuracy acheived by the model on the test dataset.
 
 ## Results
-To preform BatchNorm, the approach of[[1]](#1) is using a small public dataset and augment each batch of the data with the small public dataset disjoint from MNIST. The Public dataset does not contribute to training, but is only used to calculate the mean and standard deviation for each normalization layer. For MNIST, the apporach of [[1]](#1) is to use 128 image form to KMIST datset as  the publicly available dataset.
-The following were run with the model for MNIST dataset with 1 epoch: 
+To preform BatchNorm, the approach of[[1]](#1) is to use a small public dataset and augment each batch of the data with the public dataset. The public dataset is disjoint from the training data. The Public dataset does not contribute to training, but is only used to calculate the mean and standard deviation for each normalization layer. For MNIST, the apporach of [[1]](#1) is to use 128 image form to KMIST datset as the publicly available dataset.
 
-1. DP and Robust - no normalization
-2. DP and Robust - with normalization 
+The following experiments were run with the model for the MNIST classification task for 1 epoch: 
 
-Different values for noise-multiplier (the current default value is 7.1).
+1. DP and Robust - no Batch Norm 
+2. DP and Robust - with Batch Norm
+
+The noise multiplier is the noise added to the gradients to ensure privacy. 
+
 The accuracy is calculated on the test set.
+
 | DP | Robust | Norm | NM | Accuracy |
 |----|:-------|:----:|:--:|---------:|
 | Y  |    Y   |  Y   | 7.1|    0.97  |
