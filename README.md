@@ -1,6 +1,7 @@
 # CS523_Project
 Deep learning Team Project 2022 - The tradeoff between privacy and robustness when training with Batch Normalization
-Our task is to train a model to be both robust and deferentially private (DP) with and without using Batch Normalization. We want to test whether batch normalization can improve the trade-offs between robusts and privacy observed in the literature. We train model for two image classification tasks: MNIST and CIFAR-10. 
+
+Our task is to train a model to be both robust and deferentially private (DP) with and without using Batch Normalization. We want to test whether batch normalization can improve the trade-offs between robustness and privacy observed in the literature. We train models for two image classification tasks: MNIST and CIFAR-10. 
 
 ## Usage
 
@@ -12,12 +13,12 @@ To run experiments on CIFAR-10 use:
 ```
 python vision.py --dataset cifar10
 ```
-Check ``vision.py`` for all other arguments that can be specified, such as number of epochs, privay argumetns, robustness arguments, etc. 
+Check ``vision.py`` for all other parameters that can be specified, such as number of epochs, privacy parameters, robustness parameters, etc. 
 
-We have combined the DP with Batch Norm training algorithm of [[1]](#1) together with robust PGD training. We have updated the [code](https://github.com/uds-lsv/SIDP) of [[1]](#1) to support robust training using Projected Gradient Descent (PGD). For each batch, we create a new adversarial batch formed by doing gradient ascent on the current batch. The goal of gradient ascent is to maximize the loss the model on the perturbed batch. The [followig code](https://gist.github.com/oscarknagg/45b187c236c6262b1c4bbe2d0920ded6##file-projected_gradient_descent-py) for PGD is obtained and modified to work for our traiing procedure. 
+We have combined the DP with Batch Norm training algorithm of [[1]](#1) together with robust Projected Gradient Descent (PGD) training. We have updated the [code](https://github.com/uds-lsv/SIDP) of [[1]](#1) to support robust. For each batch, we create a new adversarial batch formed by doing gradient ascent on the current batch. The goal of gradient ascent is to maximize the loss the model on the perturbed batch. The [followig code](https://gist.github.com/oscarknagg/45b187c236c6262b1c4bbe2d0920ded6##file-projected_gradient_descent-py) for PGD is obtained and modified to work for our traiing procedure. 
 
 ## Testing
-We compare DP + robust training on the MNIST and CIFAR-10 datasets (with and without BatchNorm) for various amounts of adversarial noise and privcy budgets. The comparison will be in terms of the accuracy acheived by the model on the test dataset.
+We compare DP + robust training on the MNIST and CIFAR-10 datasets (with and without BatchNorm) for various amounts of adversarial noise and privacy budgets. The comparison will be in terms of the accuracy acheived by the model on the test dataset.
 
 ## Results
 To preform BatchNorm, the approach of[[1]](#1) is to use a small public dataset and augment each batch of the data with the public dataset. The public dataset is disjoint from the training data. The Public dataset does not contribute to training, but is only used to calculate the mean and standard deviation for each normalization layer. For MNIST, the apporach of [[1]](#1) is to use 128 image form to KMIST datset as the publicly available dataset.
@@ -27,7 +28,7 @@ The following experiments were run with the model for the MNIST classification t
 1. DP and Robust - no Batch Norm 
 2. DP and Robust - with Batch Norm
 
-The noise multiplier is the noise added to the gradients to ensure privacy. 
+The noise multiplier determines the privacy budget. 
 
 The accuracy is calculated on the test set.
 
