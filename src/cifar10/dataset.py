@@ -19,7 +19,7 @@ def data_loaders(batch_size):
     test_data = datasets.CIFAR10(root='./data', train=False, download=True, transform=transform_test)
     sampler = RandomSampler(train_data, replacement=True)
     train_loader = DataLoader(train_data, batch_size=batch_size, num_workers=2, sampler=sampler, drop_last=True)
-    test_loader = DataLoader(test_data, batch_size=1)
+    test_loader = DataLoader(test_data, batch_size=batch_size)
 
     return train_loader, test_loader
 
