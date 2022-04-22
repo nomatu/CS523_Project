@@ -31,23 +31,25 @@ def projected_gradient_descent(model, x, y, loss_fn, std_params, axi_x,
         prediction = model(_x_adv_augmented, std_params)[:batch_size]
         
         y_hat = torch.argmax(prediction, dim = 1)
-        losses = loss_fn(prediction, y)
+        loss = loss_fn(prediction, y)
+        loss.backward()
         
-        
-        saved_var = dict()
-        for tensor_name, tensor in model.named_parameters():
-            saved_var[tensor_name] = torch.zeros_like(tensor)
 
-        for j in losses:
-            j.backward(retain_graph=True)
+        
+        # saved_var = dict()
+        # for tensor_name, tensor in model.named_parameters():
+        #     saved_var[tensor_name] = torch.zeros_like(tensor)
+
+        # for j in losses:
+        #     j.backward(retain_graph=True)
             
-            for tensor_name, tensor in model.named_parameters():
-                new_grad = tensor.grad
-                saved_var[tensor_name].add_(new_grad)
-            #optimizer.zero_grad()
+        #     for tensor_name, tensor in model.named_parameters():
+        #         new_grad = tensor.grad
+        #         saved_var[tensor_name].add_(new_grad)
+        #     #optimizer.zero_grad()
 
-        for tensor_name, tensor in model.named_parameters():
-            tensor.grad = saved_var[tensor_name] / losses.shape[0]
+        # for tensor_name, tensor in model.named_parameters():
+        #     tensor.grad = saved_var[tensor_name] / losses.shape[0]
         
         
 
@@ -113,7 +115,4 @@ def viz_adversarial(x, y_hat = None, dataset="mnist"):
   plt.savefig(filename)
   
   if y_hat != None: plt.title("predction = {}".format(y_hat[0].item()))
-
-#viz(x)
-#print(x[0, 0])
 
