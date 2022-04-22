@@ -10,7 +10,7 @@ def data_loaders(batch_size):
 
     sampler = RandomSampler(train_data, replacement=True)
     train_loader = DataLoader(train_data, batch_size, num_workers=2, sampler=sampler)
-    test_loader = DataLoader(test_data, batch_size=1)
+    test_loader = DataLoader(test_data, batch_size=batch_size)
 
     return train_loader, test_loader
 
