@@ -30,7 +30,7 @@ The following experiments were run with the model for the MNIST classification t
 1. DP and Robust - no Batch Norm 
 2. DP and Robust - with Batch Norm
 
-The noise multiplier determines the privacy budget. 
+The noise multiplier(NM) determines the privacy budget. 
 
 The accuracy is calculated on the test set.
 
