@@ -28,12 +28,11 @@ We compare DP + robust training on the MNIST and CIFAR-10 datasets (with and wit
 The following experiments were run with the LeNet-5model for the MNIST classification task for 10 epochs and ResNEt-18 model the CIFAR-10 classification for 20 epochs: 
 
 ![Test Image 2](images/MNIST-1.png)
-Figure 1 depicts the average accuracy of the LeNet-5 model for different values of privacy budget espilon. For each of the condition the model was averaged over three runs. The dots in the grapgs represent an epoch of training. The experiment was tested over three noise multipliers (10, 5 and 1). It was found that with BatchNorm, the model consistenly improved the preformance of the model for all noise multiplers. . The differences between Batchnorm and no Batchnorm is as high as 5 percentage points when the noise multipler is 10 and epsilon is 0.01 and as low as 1 percentage point with low noise multipler and high privacy budget. 
+Figure 1 depicts the average accuracy of the LeNet-5 model for different values of privacy budget espilon. For each of the condition the model was averaged over three runs. The dots in the grapgs represent an epoch of training. The experiment was tested over three noise multipliers (10, 5 and 1). It was found that with BatchNorm, the model consistenly improved the preformance of the model for all noise multiplers. The differences between Batchnorm and no Batchnorm is as high as 5 percentage points when the noise multipler is 10 and epsilon is 0.01 and as low as 1 percentage point with low noise multipler and high privacy budget. 
 
 ![Test Image 2](images/CIFAR10-1.png)
-Figure 2 depicts the average accuracy of the ResNet-18 model for different values of privacy budget epsilon. 
-As expected, the accuracy achieve by the model decreases with the increase in the noise multipler
-More epochs would have been needed for the models to achieve reasonable accuracy, but robust and DP training is very slow and can take up to an hour to run a epoch. For the first 20 epoch of training, there isnt any significat difference in the accuracy between both methods.  A distinction between the two methods could potentiallt show up in later epochs for training. 
+Figure 2 depicts the average accuracy of the ResNet-18 model for different values of privacy budget epsilon. The experiment was tested over three noise multipliers (5, 3, and 1).
+As expected, the accuracy achieve by the model decreases with the increase in the noise multipler. More epochs would have been needed for the models to achieve reasonable accuracy, but robust and DP training is very slow and can take up to an hour to run a epoch. For the first 20 epoch of training, there isnt any significat difference in the accuracy between both methods.  A distinction between the two methods could potentiallt show up in later epochs for training. 
 
 The parameters for both models are as following: 
 - Lenet-5 : Learning rate = 0.01 except for NM  = 1 where learning rate = 0.1; clipping value = 3.1; batch size = 32 [[1]](#1); adversarial steps = 40; 
