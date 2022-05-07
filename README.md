@@ -14,7 +14,7 @@ To run experiments on CIFAR-10 use:
 python vision.py --dataset cifar10
 ```
 Check ``vision.py`` for all other parameters that can be specified, such as number of epochs, privacy parameters, robustness parameters, etc. 
-Check ``images`` file for all results of training on the MNIST and CIFAR-10 datasets with Projected Gradient Descent and ``src`` for all the files used for the project. 
+Check ``images`` file for all results of training on the MNIST and CIFAR-10 datasets with Projected Gradient Descent and ``src`` for all the files used for the project such as  
 
 
 We have combined the DP with Batch Norm training algorithm of [[1]](#1) together with robust Projected Gradient Descent (PGD) training. We have updated the [code](https://github.com/uds-lsv/SIDP) of [[1]](#1) to support robust training. For each batch, we create a new adversarial batch formed by doing gradient ascent on the current batch. The goal of gradient ascent is to maximize the loss the model on the perturbed batch. The [following code](https://gist.github.com/oscarknagg/45b187c236c6262b1c4bbe2d0920ded6##file-projected_gradient_descent-py) for PGD is obtained and modified to work for our traiing procedure. 
@@ -25,19 +25,10 @@ To preform BatchNorm, the approach of [[1]](#1) is to use a small public dataset
 We compare DP + robust training on the MNIST and CIFAR-10 datasets (with and without BatchNorm) for various amounts of adversarial noise and privacy budgets. The comparison will be in terms of the accuracy acheived by the model on the test dataset.
 
 ## Results
-The following experiments were run with the model for the MNIST classification task for 1 epoch: 
+The following experiments were run with the model for the MNIST classification task for 10 epochs and the CIFAR-10 classification for 20 epochs: 
 
-1. DP and Robust - no Batch Norm 
-2. DP and Robust - with Batch Norm
 
-The noise multiplier(NM) determines the privacy budget. 
 
-The accuracy is calculated on the test set.
-
-| DP | Robust | Norm | NM | Accuracy |
-|----|:-------|:----:|:--:|---------:|
-| Y  |    Y   |  Y   | 7.1|    0.97  |
-| Y  |    Y   |  N   | 7.1|    0.94  |
 
 
 ## References
