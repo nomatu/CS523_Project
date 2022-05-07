@@ -14,7 +14,8 @@ To run experiments on CIFAR-10 use:
 python vision.py --dataset cifar10
 ```
 Check ``vision.py`` for all other parameters that can be specified, such as number of epochs, privacy parameters, robustness parameters, etc. 
-Check ``images`` file for all results of training on the MNIST and CIFAR-10 datasets with Projected Gradient Descent and ``src`` for all the files used to conduct the experiments 
+Check ``images`` file for all results of training on the MNIST and CIFAR-10 datasets with Projected Gradient Descent and ``src`` for all the files used to conduct the experiments. In ``src``, contain the folders ``cifar10``, ``dp-layers``, and ``mnist``. ``cifar10`` contains all the  files that is need to preform the CIFAR-10 expermiment with ``train.py``, the dataset loader ``dataset.py``, and the ResNet19 and VGG models comprised of ``si_resnet.py``, ``si_vgg.py`` and their CNN layers ``resnet_si_layers.py`` and ``vgg_si_layers.py``. 
+
 
 
 We have combined the DP with Batch Norm training algorithm of [[1]](#1) together with robust Projected Gradient Descent (PGD) training. We have updated the [code](https://github.com/uds-lsv/SIDP) of [[1]](#1) to support robust training. For each batch, we create a new adversarial batch formed by doing gradient ascent on the current batch. The goal of gradient ascent is to maximize the loss the model on the perturbed batch. The [following code](https://gist.github.com/oscarknagg/45b187c236c6262b1c4bbe2d0920ded6##file-projected_gradient_descent-py) for PGD is obtained and modified to work for our traiing procedure. 
