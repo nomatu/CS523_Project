@@ -65,4 +65,4 @@ bauer, and Dietrich Klakow. On the effect of normalization layers on differentia
 neural networks. CoRR, abs/2006.10919, 2020.
 
 <a id="2">[2]</a> 
-Badih Ghazi, Ravi Kumar, Pasin Manurangsi, and Thao Nguyen. Robust and private learning of halfspaces. In Arindam Banerjee and Kenji Fukumizu, editors, The International Conference on Artificial Intelligence and Statistics (AISTATS), volume 130, pages 1603–1611, 2021
+Aleksander Madry, Aleksandar Makelov, Ludwig Schmidt, Dimitris Tsipras, and Adrian Vladu. To-wards deep learning models resistant to adversarial attacks. In International Conference on Learning Representations (ICLR), 2018
