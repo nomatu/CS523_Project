@@ -65,4 +65,4 @@ bauer, and Dietrich Klakow. On the effect of normalization layers on differentia
 neural networks. CoRR, abs/2006.10919, 2020.
 
 <a id="2">[2]</a> 
-Aleksander Madry, Aleksandar Makelov, Ludwig Schmidt, Dimitris Tsipras, and Adrian Vladu. To-wards deep learning models resistant to adversarial attacks. In International Conference on Learning Representations (ICLR), 2018
+Aleksander Madry, Aleksandar Makelov, Ludwig Schmidt, Dimitris Tsipras, and Adrian Vladu. Towards deep learning models resistant to adversarial attacks. In International Conference on Learning Representations (ICLR), 2018.
