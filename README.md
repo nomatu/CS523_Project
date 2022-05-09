@@ -5,6 +5,12 @@ Our task is to train a model to be both robust and deferentially private (DP) wi
 
 ## Usage
 
+You will need to install the tensorflow-privacy package 
+
+```
+pip install tensorflow_privacy
+```
+
 To run experiments on MNIST use: 
 ```
 python vision.py --dataset mnist 
@@ -14,35 +20,53 @@ To run experiments on CIFAR-10 use:
 python vision.py --dataset cifar10
 ```
 Check ``vision.py`` for all other parameters that can be specified, such as number of epochs, privacy parameters, robustness parameters, etc. 
-Check ``images`` file for all results of training on the MNIST and CIFAR-10 datasets with Projected Gradient Descent and ``src`` for all the files used to conduct the experiments. In ``src``, contain the folders ``cifar10``, ``dp-layers``, and ``mnist``. ``cifar10`` contains all the files that is need to preform the CIFAR-10 expermiment with ``train.py``, the dataset loader ``dataset.py``, and the ResNet19 and VGG models comprised of ``si_resnet.py``, ``si_vgg.py`` and their CNN layers ``resnet_si_layers.py`` and ``vgg_si_layers.py``. ``mnist`` contains all the files that is need to preform the MNIST expermiment with ``train.py``, the dataset loader ``dataset.py``, the LeNet5 model ``model.py``. ``dp-layers`` contains the file ``dp-layers.py`` which creates the layers for both models. ``pgd_attack.py`` is used by both ``train.py`` to include the PGD attack into its training procedure. These files were used from the [code](https://github.com/uds-lsv/SIDP) of [[1]](#1).
-
 
 We have combined the DP with Batch Norm training algorithm of [[1]](#1) together with robust Projected Gradient Descent (PGD) training. We have updated the [code](https://github.com/uds-lsv/SIDP) of [[1]](#1) to support robust training. For each batch, we create a new adversarial batch formed by doing gradient ascent on the current batch. The goal of gradient ascent is to maximize the loss the model on the perturbed batch. The [following code](https://gist.github.com/oscarknagg/45b187c236c6262b1c4bbe2d0920ded6##file-projected_gradient_descent-py) for PGD is obtained and modified to work for our traiing procedure. 
 
 To preform BatchNorm, the approach of [[1]](#1) is to use a small public dataset and augment each batch of the data with the public dataset. The public dataset is disjoint from the training data. The Public dataset does not contribute to training, but is only used to calculate the mean and standard deviation for each normalization layer. For MNIST, the apporach of [[1]](#1) is to use 128 image form to KMIST datset as the publicly available dataset.
 
+The ``images`` folder contains graphs from our experimental results. 
+
+The ``src`` folder contains all the files needed to conduct the experiments. In the ``cifar10`` and ``mnist`` folder, the ``dataset.py`` file prepares and loads the datasets, the ``model.py`` file specifies the model, and the ``train.py`` file specifies the training procedure. 
+
+The ``dp-layers`` folder contains DP specifications of layers used to build the CIFAR-10 and MNIST models. 
+
+The ``pgd_attack.py`` file is used to perform the PGD attack for robust training. 
+
+These files were used from the [code](https://github.com/uds-lsv/SIDP) of [[1]](#1).
+
 ## Testing
-We compare DP + robust training on the MNIST and CIFAR-10 datasets (with and without BatchNorm) for various amounts of adversarial noise and privacy budgets. The comparison will be in terms of the accuracy acheived by the model on the test dataset.
+We compare the performance of DP+robust training on classification tasks for MNIST and CIFAR-10 between the case when the model uses BatchNorm layers vs. when it does not.  We will compare the role of the addition of BatchNorm for different values of the noise multiplier. To that end we calculate the accuracy on the test set between a model trained with BatchNorm vs without BatchNorm, which are trained 
+
+     - with the same privacy parameters
+     
+     - for the same number of epochs
+     
+     - the same robustness parameters
+
+The accuracy is the percentage of images in the test set for which the model outputs the correct label. Each accuracy value is averaged over three independent runs. Since the privacy parameters and number of epochs are the same, this means that the models will use the same privacy budgets. The privacy budget is calculated as a function of the noise multiplier, number of epochs, and batch size. 
+
+We tune the learning rate for each trained model.
 
 ## Results
-The following experiments were run with the LeNet-5model for the MNIST classification task for 10 epochs and ResNEt-18 model the CIFAR-10 classification for 20 epochs: 
+The following experiments were run with the LeNet-5model for the MNIST classification task and the ResNet-18 model the CIFAR-10 classification task.
 
 ![Test Image 2](images/MNIST-1.png)
-Figure 1 depicts the average accuracy of the LeNet-5 model for different values of privacy budget espilon. For each of the condition the model was averaged over three runs. The dots in the grapgs represent an epoch of training. The experiment was tested over three noise multipliers (10, 5 and 1). It was found that with BatchNorm, the model consistenly improved the preformance of the model for all noise multiplers. The differences between Batchnorm and no Batchnorm is as high as 5 percentage points when the noise multipler is 10 and epsilon is 0.01 and as low as 1 percentage point with low noise multipler and high privacy budget. 
+Figure 1 depicts the test set accuracy of the LeNet-5 MNIST model for different values of privacy budget $\eps$. (The accuracy is averaged over 3 independent runs). Each dot in the graphs represents one epoch of training. All models are trained for 10 epochs. We repeat the experiments with different values of noise multipliers. We observe that the use of BatchNorm consistently improves the performance of the model for all noise multipliers. The difference in accuracy between using BatchNorm vs no BatchNorm is as high as 5 percentage points for noise multiplier $Z=10$ and $\eps = 0.01$ and $Z = 5$ and $\eps = 0.02$. For lower amounts of noise and higher privacy budgets the difference in accuracy is around 1 percentage point. 
 
 ![Test Image 2](images/CIFAR10-1.png)
-Figure 2 depicts the average accuracy of the ResNet-18 model for different values of privacy budget epsilon. The experiment was tested over three noise multipliers (5, 3, and 1).
-As expected, the accuracy achieve by the model decreases with the increase in the noise multipler. More epochs would have been needed for the models to achieve reasonable accuracy, but robust and DP training is very slow and can take up to an hour to run a epoch. For the first 20 epoch of training, there isnt any significat difference in the accuracy between both methods.  A distinction between the two methods could potentiallt show up in later epochs for training. 
+Figure 2 depicts the average test set accuracy of the CIFAR-10 model for different values of privacy budget $\eps$. The models are trained for 20 epochs. More epochs would have been needed for the models to achieve reasonable accuracy values. However, robust and DP training is extremely slow for the ResNet-18 model, with one epoch of training lasting about 1 hour. For the first 20 epochs of training, we do not observe a significant difference in the accuracy obtained with BatchNorm vs without it. A distinction between the two methods could potentially show up in much later epochs of training. As expected, the accuracy achieved by the models decreases with the increase in the noise multiplier. 
 
 The parameters for both models are as following: 
 - Lenet-5 : Learning rate = 0.01 except for NM  = 1 where learning rate = 0.1; clipping value = 3.1; batch size = 32 [[1]](#1); adversarial steps = 40; 
 - ResNet-18: Learning rate = 0.01, where learning rate = 0.1; clipping value = 3.1; batch size = 32 [[1]](#1); adversarial steps = 20[[2]](2); 
-- For the robust training: alpha = 0.01 and projection norm = 0.03 [[2]](#2);
+- For both models we use the following parameters for robust training: gradient step = 0.01 and projection norm = 0.03 [[2]](#2);
 
 ## References
 <a id="1">[1]</a> 
 Ali Davody, David Ifeoluwa Adelani, Thomas Klein-
 bauer, and Dietrich Klakow. On the effect of normalization layers on differentially private training of deep
 neural networks. CoRR, abs/2006.10919, 2020.
+
 <a id="2">[2]</a> 
 Badih Ghazi, Ravi Kumar, Pasin Manurangsi, andThao Nguyen. Robust and private learning of halfspaces. In Arindam Banerjee and Kenji Fukumizu, editors, The International Conference on Artificial Intelligence and Statistics (AISTATS), volume 130, pages 1603–1611, 2021
