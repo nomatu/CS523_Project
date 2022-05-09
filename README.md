@@ -3,6 +3,10 @@ Deep learning Team Project 2022 - The tradeoff between privacy and robustness wh
 
 Our task is to train a model to be both robust and deferentially private (DP) with and without using Batch Normalization. We want to test whether batch normalization can improve the trade-offs between robustness and privacy observed in the literature. We train models for two image classification tasks: MNIST and CIFAR-10. 
 
+We have combined the DP with Batch Norm training algorithm of [[1]](#1) together with robust Projected Gradient Descent (PGD) training. We have updated the [code](https://github.com/uds-lsv/SIDP) of [[1]](#1) to support robust training. For each batch, we create a new adversarial batch formed by doing gradient ascent on the current batch. The goal of gradient ascent is to maximize the loss the model on the perturbed batch. The [following code](https://gist.github.com/oscarknagg/45b187c236c6262b1c4bbe2d0920ded6##file-projected_gradient_descent-py) for PGD is obtained and modified to work for our traiing procedure. 
+
+To perform BatchNorm, the approach of [[1]](#1) is to use a small public dataset and augment each batch of the data with the public dataset. The public dataset is disjoint from the training data. The Public dataset does not contribute to training, but is only used to calculate the mean and standard deviation for each normalization layer. For MNIST, the apporach of [[1]](#1) is to use 128 image form to KMIST datset as the publicly available dataset.
+
 ## Usage
 
 You will need to install the tensorflow-privacy package 
@@ -20,10 +24,6 @@ To run experiments on CIFAR-10 use:
 python vision.py --dataset cifar10
 ```
 Check ``vision.py`` for all other parameters that can be specified, such as number of epochs, privacy parameters, robustness parameters, etc. 
-
-We have combined the DP with Batch Norm training algorithm of [[1]](#1) together with robust Projected Gradient Descent (PGD) training. We have updated the [code](https://github.com/uds-lsv/SIDP) of [[1]](#1) to support robust training. For each batch, we create a new adversarial batch formed by doing gradient ascent on the current batch. The goal of gradient ascent is to maximize the loss the model on the perturbed batch. The [following code](https://gist.github.com/oscarknagg/45b187c236c6262b1c4bbe2d0920ded6##file-projected_gradient_descent-py) for PGD is obtained and modified to work for our traiing procedure. 
-
-To perform BatchNorm, the approach of [[1]](#1) is to use a small public dataset and augment each batch of the data with the public dataset. The public dataset is disjoint from the training data. The Public dataset does not contribute to training, but is only used to calculate the mean and standard deviation for each normalization layer. For MNIST, the apporach of [[1]](#1) is to use 128 image form to KMIST datset as the publicly available dataset.
 
 The ``images`` folder contains graphs from our experimental results. 
 
@@ -54,7 +54,7 @@ Figure 1 depicts the test set accuracy of the LeNet-5 MNIST model for different 
 Figure 2 depicts the average test set accuracy of the CIFAR-10 model for different values of privacy budget. The models are trained for 20 epochs. More epochs would have been needed for the models to achieve reasonable accuracy values. However, robust and DP training is extremely slow for the ResNet-18 model, with one epoch of training lasting about 1 hour. For the first 20 epochs of training, we do not observe a significant difference in the accuracy obtained with BatchNorm vs without it. A distinction between the two methods could potentially show up in much later epochs of training. As expected, the accuracy achieved by the models decreases with the increase in the noise multiplier. 
 
 The parameters for both models are as following: 
-- Lenet-5 : Learning rate = 0.01 except for noise multiplier = 1 where learning rate = 0.1; gradient clipping value = 3.1; batch size = 32 [[1]](#1); robust adversarial steps = 40; 
+- LeNet-5 : Learning rate = 0.01 except for when noise multiplier = 1, where learning rate = 0.1; gradient clipping value = 3.1; batch size = 32 [[1]](#1); robust adversarial steps = 40; 
 - ResNet-18: Learning rate = 0.01 for all noise multipliers; gradient clipping value = 2.5; batch size = 32 [[1]](#1); robust adversarial steps = 20 
 - For both models we use the following parameters for the PGD attack: gradient step = 0.01 and projection norm = 0.03 [[2]](#2);
 
